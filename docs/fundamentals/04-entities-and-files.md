@@ -78,7 +78,7 @@ inside several surveys. The links are:
 | **GeoPoliticalEntity** | master | A country, state or licence area | `GeoPoliticalEntityName`, `GeoPoliticalEntityTypeID` |
 | **Field** | master | An accumulation of oil or gas being developed | `FieldName`, `EffectiveDate` |
 | **Well** | master | The surface installation and business asset | `FacilityName`, `SpatialLocation` (surface position), `VerticalMeasurements[]` (surface reference points), `CurrentOperatorID`, `GeoContexts[]`, `FacilityStates[]` |
-| **Wellbore** | master | One drilled path from a well; a well can have several | `WellID`, `KickOffWellbore` (parent branch), `VerticalMeasurements[]` (drilling reference points, TD), `DefinitiveTrajectoryID`, `TrajectoryTypeID` (vertical, deviated, horizontal), `TargetFormation` |
+| **Wellbore** | master | One drilled path from a well; a well can have several | `WellID`, `KickOffWellbore` (parent branch), `VerticalMeasurements[]` (drilling reference points, TD), `DefinitiveTrajectoryID`, `TrajectoryTypeID` (vertical, inclined, horizontal…), `TargetFormation` |
 | **WellboreTrajectory** | WPC | The 3D path of a wellbore, measured at survey stations | `WellboreID`, `TopDepthMeasuredDepth`, `BaseDepthMeasuredDepth`, `AvailableTrajectoryStationProperties[]`, `ProjectedCRSID` |
 | **WellLog** | WPC | Measurements along a wellbore (one or more curves) | `WellboreID`, `Curves[]`, `ReferenceCurveID`, `TopMeasuredDepth`, `BottomMeasuredDepth`, `ServiceCompanyID` |
 | **WellboreMarkerSet** | WPC | Depths where geological layers start ("formation tops") | `WellboreID`, `Markers[]` (stored inline), `StratigraphicColumnID` |
@@ -91,6 +91,9 @@ inside several surveys. The links are:
 All of these also carry the shared fields of their group type ([doc 03, §4](03-data-model.md#4-group-types)),
 such as `NameAliases[]`, `GeoContexts[]` and `ExtensionProperties`, and
 `Datasets[]` on WPCs.
+
+**Every field, with required and recommended ones marked:** see
+[Common schemas](../reference/common-schemas.md).
 
 **Beyond this core** there are domains you'll meet later:
 - drilling and well construction (`Rig`, `HoleSection`, `CasingDesign`…);
@@ -215,7 +218,7 @@ depends on how often values arrive and what they're used for:
 | Data | Example | Where it goes | On ADME |
 |---|---|---|---|
 | **High-frequency sensor streams** | Wellhead or downhole pressure and temperature every second or minute | OSDU's answer is the **Production DDMS (Historian)**, a time-series domain service | **Not available.** These streams usually stay in a time-series store outside ADME (historian, Fabric Real-Time Intelligence, Azure Data Explorer), keyed by OSDU record IDs. |
-| **Reported production volumes** | Daily or monthly oil, gas and water per well, measured or allocated | **`ProductionValues`** WPC, with each period's values inline in `data.ProductionMetricValues[]`. Related: **`FlowTest`** and **`DowntimeEvent`**. | Ordinary records, so the core platform stores them. The schema version depends on your instance. |
+| **Reported production volumes** | Daily or monthly oil, gas and water per well, measured or allocated | **`ProductionValues`** WPC. The record says **what** is reported (which well or field, which period, which properties and products); the values themselves are usually in an attached file or a DDMS. Related: **`FlowTest`** and **`DowntimeEvent`**. | Ordinary records and files, so the core platform stores them. ADME (OSDU M26) has ProductionValues 1.1.1; version 2.0.0 comes with OSDU M27. |
 | **Event-based subsurface measurements** | A pressure test, a temperature log along the wellbore | `WellPressureTestRawMeasurement`, `WellLog` | Supported. Bulk curve data can go to the Wellbore DDMS. |
 
 **Naming trap:** `work-product-component--TimeSeries` is **not** for sensor data.
