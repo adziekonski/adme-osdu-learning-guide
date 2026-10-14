@@ -44,6 +44,9 @@ Read the sections in this order. Each builds on the one before it.
 
 More sections will follow.
 
+Alongside the sections, the [reference pages](#reference-look-up-any-time)
+are for looking things up at any time.
+
 Each doc starts with a TL;DR and ends with links to official sources for going
 deeper.
 
@@ -63,7 +66,6 @@ Read the docs in order.
 | 08 | [Analytics and AI](fundamentals/08-analytics-and-ai.md) | Moving data to Fabric, Databricks and alternatives; ML and generative AI on ADME data |
 | 09 | [Use cases and applications](fundamentals/09-use-cases-and-applications.md) | What operators do with ADME, who uses it, the vendor application ecosystem |
 | 10 | [From zero to data](fundamentals/10-from-zero-to-data.md) | The end-to-end path: what to do in Azure, inside ADME and in your tooling, in order |
-| — | [Glossary](fundamentals/glossary.md) | One-line definitions of the terms used in these docs |
 
 ## Reading path: data governance
 
@@ -83,6 +85,16 @@ organisation, enterprise catalogues).
 | DG-04 | [Schemas and reference data](data-governance/04-schemas-and-reference-data.md) | Schema versions, extensions and side-cars, custom kinds, upgrades, managing reference values |
 | DG-05 | [Identity, naming and versioning](data-governance/05-identity-naming-and-versioning.md) | Stable IDs, source identifiers, re-runs, versions, duplicates, deletions |
 | DG-06 | [Data quality and stewardship](data-governance/06-data-quality-and-stewardship.md) | Quality gates, recording quality on records, reconciliation, KPIs, roles |
+
+## Reference: look up any time
+
+Not part of the reading order. Use these pages whenever you need to look
+something up.
+
+| Page | What's in it |
+|---|---|
+| [Glossary](reference/glossary.md) | One-line definitions of the terms used in these docs |
+| [Common schemas](reference/common-schemas.md) | Every field of the 12 most common OSDU schemas, with required and recommended ones marked |
 
 ## Conventions
 
