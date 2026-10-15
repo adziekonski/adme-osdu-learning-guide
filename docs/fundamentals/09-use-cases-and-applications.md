@@ -17,8 +17,8 @@
 - The ecosystem has **domain application vendors** (SLB, Halliburton, AspenTech…),
   **specialist data and seismic tools** (Bluware, INT, Interica, Cegal, Katalyst,
   RoQC) and **system integrators** (Accenture, EPAM, Wipro…).
-- Public examples, from published sources only: **Aker BP** (2023), **Equinor**
-  (2025) and **TotalEnergies** (2026).
+- Public examples, from published sources only (2022–2026): **Aker BP**,
+  **Equinor** and **TotalEnergies**.
 
 ## 1. Who uses ADME, and how
 
@@ -98,8 +98,8 @@ source states, and nothing more.
 | Customer | What the source says | Source |
 |---|---|---|
 | **Aker BP** | With Microsoft, SLB and Halliburton, develops "Data Mesh", a framework on top of ADME that connects data from SLB, Halliburton and the Norwegian Petroleum Directorate in one tool. Field development today needs data from **about 150 applications** collected manually, and Data Mesh aims to solve this. Microsoft's GA announcement adds that integrating ADME with SLB and Halliburton applications helped Aker BP speed time-to-market. | [Aker BP press release](https://akerbp.com/en/aker-bp-collaborates-with-microsoft-slb-and-halliburton-to-streamline-data-sharing/) (Sep 2023); [ADME GA announcement](https://www.microsoft.com/en-us/microsoft-cloud/blog/energy-and-resources/2023/07/19/announcing-general-availability-of-azure-data-manager-for-energy/) (Jul 2023) |
-| **Equinor** | Chose ADME, aligned with the OSDU standard, to break down data silos across business functions, applications and countries. It uses ADME to automate parts of its data workflows and deliver trusted data to employees. | [Microsoft customer story](https://www.microsoft.com/en/customers/story/25408-equinor-microsoft-azure-data-manager-for-energy) (Oct 2025) |
-| **TotalEnergies** | Chose ADME for secure, real-time global data access with Azure-native compliance controls. Unified data from **10 applications**, cut critical operations **from days to hours**, and onboarded affiliates **in weeks instead of months**. | [Microsoft customer story](https://www.microsoft.com/en/customers/story/26344-totalenergies-microsoft-azure-data-manager-for-energy/) (Apr 2026) |
+| **Equinor** | Chose ADME, aligned with the OSDU standard, to break down data silos across business functions, applications and countries. It uses ADME to automate parts of its data workflows and deliver trusted data to employees. Microsoft already named Equinor as a customer when ADME launched in preview. The GA announcement adds that, as an early adopter, Equinor integrated previously siloed data and gained insights such as **suitable locations for carbon capture and storage**. | [Microsoft customer story](https://www.microsoft.com/en/customers/story/25408-equinor-microsoft-azure-data-manager-for-energy) (Oct 2025); [preview announcement](https://www.microsoft.com/en-us/microsoft-cloud/blog/energy-and-resources/2022/09/20/announcing-microsoft-energy-data-services-enable-your-data-to-do-more-in-the-cloud/) (Sep 2022); [GA announcement](https://www.microsoft.com/en-us/microsoft-cloud/blog/energy-and-resources/2023/07/19/announcing-general-availability-of-azure-data-manager-for-energy/) (Jul 2023) |
+| **TotalEnergies** | Chose ADME for secure, real-time global data access with Azure-native compliance controls. Unified data from **10 applications**, cut critical operations **from days to hours**, and onboarded affiliates **in weeks instead of months**. Microsoft's GA announcement called it an early adopter, reporting a deployment that **completes in two hours with a single click**. | [Microsoft customer story](https://www.microsoft.com/en/customers/story/26344-totalenergies-microsoft-azure-data-manager-for-energy/) (Apr 2026); [GA announcement](https://www.microsoft.com/en-us/microsoft-cloud/blog/energy-and-resources/2023/07/19/announcing-general-availability-of-azure-data-manager-for-energy/) (Jul 2023) |
 
 ## Common misconceptions
 

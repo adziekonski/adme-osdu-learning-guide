@@ -224,6 +224,10 @@ depends on how often values arrive and what they're used for:
 **Naming trap:** `work-product-component--TimeSeries` is **not** for sensor data.
 It holds the list of time steps for reservoir models.
 
+**WellLog isn't only indexed by depth.** Its `SamplingDomainTypeID` can also be
+**time** (for data recorded against time instead of depth) or **seismic travel
+time**.
+
 **The common pattern:**
 - ADME is the system of record for **context**: which well, which units, who can
   see it, under what legal terms.
