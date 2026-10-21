@@ -41,6 +41,7 @@ Read the sections in this order. Each builds on the one before it.
 |---|---|---|
 | 1 | [Fundamentals](#reading-path-fundamentals) | Understand what ADME and OSDU are, what's inside, and how data goes in and comes out |
 | 2 | [Data governance](#reading-path-data-governance) | Decide how the platform is organised before the first load: partitions, access, legal tags, schemas, identities, data quality |
+| 3 | [Data integration](#reading-path-data-integration) | Get data into ADME and back out: routes and tools, authentication, mapping, loading, files, verification, reading, export and AI, migration |
 
 More sections will follow.
 
@@ -85,6 +86,28 @@ organisation, enterprise catalogues).
 | DG-04 | [Schemas and reference data](data-governance/04-schemas-and-reference-data.md) | Schema versions, extensions and side-cars, custom kinds, upgrades, managing reference values |
 | DG-05 | [Identity, naming and versioning](data-governance/05-identity-naming-and-versioning.md) | Stable IDs, source identifiers, re-runs, versions, duplicates, deletions |
 | DG-06 | [Data quality and stewardship](data-governance/06-data-quality-and-stewardship.md) | Quality gates, recording quality on records, reconciliation, KPIs, roles |
+
+## Reading path: data integration
+
+For data engineers, integration developers and architects who build the
+pipelines and applications around ADME. Read the fundamentals and data
+governance first: this section implements the decisions made there.
+
+It's about **how data gets in and out**: which ADME route and which Azure tool
+to use, how to authenticate, map, load and verify, and how to read, export and
+migrate. It doesn't cover deploying or operating ADME itself.
+
+| # | Doc | You will understand |
+|---|---|---|
+| DI-01 | [Choosing a route and a tool](data-integration/01-choosing-a-route-and-a-tool.md) | Storage API, manifests, CSV parser, files, DDMS and EDS; which Azure tool runs the pipeline |
+| DI-02 | [Authentication](data-integration/02-authentication.md) | Tokens and audiences, managed identities and service principals, group membership, acting for a user |
+| DI-03 | [Source analysis and mapping](data-integration/03-source-analysis-and-mapping.md) | Profiling a source, classifying it into OSDU targets, writing the mapping specification |
+| DI-04 | [Building and loading records](data-integration/04-building-and-loading-records.md) | Valid records, load order, Storage API vs manifest ingestion, safe re-runs, errors and retries |
+| DI-05 | [Files and bulk data](data-integration/05-files-and-bulk-data.md) | The File and Dataset services, Wellbore and Seismic DDMS, reservoir models and samples |
+| DI-06 | [Validation, reconciliation and monitoring](data-integration/06-validation-reconciliation-and-monitoring.md) | Proving a load worked, indexing status, reindexing, logs, metrics and the run report |
+| DI-07 | [Reading data: APIs and change feeds](data-integration/07-reading-data-apis-and-change-feeds.md) | Search vs Storage, query syntax and limits, spatial search, relationships, notifications |
+| DI-08 | [Export to analytics and AI](data-integration/08-export-to-analytics-and-ai.md) | ACZ and your own export, re-applying access in the copy, agents and search indexes |
+| DI-09 | [Migration playbook](data-integration/09-migration-playbook.md) | Phases and gates, waves, source changes, cutover, rollback, roles |
 
 ## Reference: look up any time
 
