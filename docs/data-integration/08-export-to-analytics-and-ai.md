@@ -8,8 +8,9 @@
 
 - **Three ways to use ADME data outside ADME:**
   1. **ACZ:** a managed export of chosen kinds to Delta tables in **your**
-     Data Lake Storage. It's a **preview**, on the **Developer tier only**,
-     with an allow list.
+     Data Lake Storage. Since November 2026 it's **generally available** on the
+     Developer and Standard tiers, enabled in the Azure portal and billed as an
+     add-on. Its Wellbore DDMS export and its entitlements export are previews.
   2. **Your own export pipeline:** Search/Storage → Delta tables. It's always
      available.
   3. **Live API calls** from apps and agents, **as the user**.
@@ -42,25 +43,32 @@ flowchart LR
 
 | Pattern | Use when | Freshness | Access control |
 |---|---|---|---|
-| **ACZ** | Developer-tier instance on the allow list; Wellbore DDMS curves also needed | Near-real-time | **None in the copy.** Rows keep `acl` and `legal` as columns |
-| **Own export** | Production (Standard tier), or you need custom shaping or filtering | Your schedule, or event-driven ([DI-07](07-reading-data-apis-and-change-feeds.md)) | **None in the copy.** But you control what is exported |
+| **ACZ** | ACZ is enabled on the instance (a billed add-on), and the data is catalogue records or Wellbore DDMS data (preview) | Near-real-time | **None in the copy.** Rows keep `acl` and `legal` as columns |
+| **Own export** | ACZ isn't enabled, the data isn't covered by ACZ (seismic, reservoir models, lab results), or you need custom shaping or filtering | Your schedule, or event-driven ([DI-07](07-reading-data-apis-and-change-feeds.md)) | **None in the copy.** But you control what is exported |
 | **Live API** | Apps and agents that need current data, scoped to the user | Real time | **Enforced by ADME** for each user |
 
 ## 2. ACZ setup
 
-**One-time enablement** (Developer tier, preview):
+**One-time enablement** (Developer or Standard tier; generally available since
+November 2026):
 1. **Storage:** create a Data Lake Storage Gen2 account with **hierarchical
-   namespace** enabled, in an allowed geography. You choose it, so residency is
-   your call.
+   namespace** enabled. You choose its region, so residency is your call. It
+   must **allow public network access**: firewall rules, disabled public access
+   and private endpoints aren't supported on the destination (an ADME instance
+   with private endpoints is supported).
 2. **Identity:** create a **dedicated user-assigned managed identity** for ACZ.
-3. **Attach it** to the ADME resource with an Azure Resource Manager `PUT`.
-   **Careful:** the `PUT` replaces the whole resource configuration. GET it
-   first and send back **all** properties (CORS, encryption, network, tags,
-   identities), or they're removed.
+3. **Enable ACZ in the Azure portal:** on the ADME resource, under
+   **Advanced → Analytics Consumption Zone**, tick **Enable** and select the
+   identity. **Charges start now**, and ACZ can't be disabled in the portal
+   afterwards (only through a support request).
 4. **Grant** the identity **Storage Blob Data Contributor** on the container.
-5. **Send** the identity and instance details to Microsoft for the allow list.
+5. **Check the API caller's groups:** `users@`, `users.datalake.ops` and
+   `service.entitlements.user`.
 
-**Create an ACZ** (the caller needs `users@` and `users.datalake.ops`):
+Enabling ACZ doesn't export anything yet; the export starts when you create an
+ACZ instance.
+
+**Create an ACZ** (the caller needs the three groups above):
 
 ```http
 POST /api/acz/v1/aczs
@@ -86,8 +94,9 @@ POST /api/acz/v1/aczs
 - **Kind choices:**
   - `allCatalogSync: true` exports every catalogue kind.
   - `ALL_VERSIONS` keeps the full history, but makes the table bigger.
-- **Check:** network requirements if the storage account isn't publicly
-  reachable. They aren't documented for the preview.
+  - `wellboreDDMSKinds` (preview) adds the Wellbore DDMS bulk files.
+- **Entitlements export** (preview, on request): exports OSDU group memberships
+  as a Delta table, for access filtering in your analytics platform (§5).
 
 **Connect a platform:**
 - **Fabric:** a OneLake **shortcut** to `<aczId>/osducatalog/`. In a
@@ -105,6 +114,9 @@ POST /api/acz/v1/aczs
 - **Columns:** `id`, `version`, `kind`, `data`, `meta`, `acl`, `legal` and
   `tags`. All of them except `id`, `version` and `kind` are JSON strings.
 - **System columns:** `createUser`, `createTime`, `ingestTime`, `isActive`.
+  ACZ instances created with the current **schema version 2** also have
+  `modifyUser` and `modifyTime`. Existing instances keep their schema; there's
+  no migration.
 
 | Change in ADME | Effect in the table |
 |---|---|
@@ -113,8 +125,10 @@ POST /api/acz/v1/aczs
 | Soft delete | `isActive = false` |
 | Purge | The row is removed |
 
-**Wellbore DDMS kinds** get their own folders, with the bulk Parquet files per
-record and file-tracking columns (`fileDownloadState`…).
+**Wellbore DDMS kinds** (preview) get their own folders, under `wellboreDDMS/`
+for instances created from October 2026. They hold each record's bulk files,
+Parquet and JSON, and aren't Delta tables; file-tracking columns
+(`fileDownloadState`…) in `osducatalog` point to them.
 
 **Build curated tables on top.** Example in Spark SQL:
 
@@ -202,7 +216,7 @@ controls:
 |---|---|
 | **Publication rule** | Publish only records whose `acl.viewers` include an approved audience group and whose legal tags are approved and valid. Apply it when building curated tables |
 | **Separate workspaces** per audience | The simplest strong boundary: a "general" workspace and a "restricted" workspace, each with its own curated tables |
-| **Row filters** | Map OSDU groups to Entra ID groups in a mapping table you maintain. Then filter rows by the user's groups, counting both `acl.owners` and `acl.viewers` (both grant read): Unity Catalog row filters in Databricks, OneLake security in Fabric |
+| **Row filters** | Map OSDU groups to Entra ID groups in a mapping table you maintain. Then filter rows by the user's groups, counting both `acl.owners` and `acl.viewers` (both grant read): Unity Catalog row filters in Databricks, OneLake security in Fabric. ACZ's entitlements export (preview) provides the OSDU group memberships as a table to build this from |
 | **Refresh** | Legal tag status and ACL changes reach the copy only on the next sync. With ACZ, an ACL change updates the row. Rebuild curated tables often enough for your risk level |
 
 - **Remove old copies.** Overwriting a Delta table doesn't erase older files
@@ -313,8 +327,8 @@ building your own map export.
   instead.
 - **Joining on reference IDs without removing the trailing colon,** and getting
   zero matches.
-- **Attaching the ACZ managed identity with a partial `PUT`,** which wipes CORS,
-  network or encryption settings.
+- **Enabling ACZ just to try it.** Charges start on enablement, and it can't be
+  switched off in the portal.
 - **AI agents running with a service principal,** so every user sees everything
   the agent can see.
 - **Indexing documents without their reader groups,** or never removing deleted

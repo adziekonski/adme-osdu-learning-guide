@@ -111,7 +111,7 @@ into ADME.
 | **Domain slices** | DDMS APIs: curves by depth, seismic bricks, RESQML objects | Partial reads of big data |
 | **Change feed** | Notification service: subscribe to record changes | Drives downstream syncs |
 | **Governance on every read** | ACL and legal checks | Including legal inheritance through `ancestry` |
-| **Analytics copies** | ACZ (preview) or your own export | See [doc 08](08-analytics-and-ai.md) |
+| **Analytics copies** | ACZ or your own export | See [doc 08](08-analytics-and-ai.md) |
 
 ## 6. Where loads usually fail
 

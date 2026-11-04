@@ -42,6 +42,7 @@ Read the sections in this order. Each builds on the one before it.
 | 1 | [Fundamentals](#reading-path-fundamentals) | Understand what ADME and OSDU are, what's inside, and how data goes in and comes out |
 | 2 | [Data governance](#reading-path-data-governance) | Decide how the platform is organised before the first load: partitions, access, legal tags, schemas, identities, data quality |
 | 3 | [Data integration](#reading-path-data-integration) | Get data into ADME and back out: routes and tools, authentication, mapping, loading, files, verification, reading, export and AI, migration |
+| 4 | [Domain data services (DDMS)](#reading-path-domain-data-services-ddms) | Understand each DDMS: what it holds, what users can do with it, when to use it, and when the File service or a lakehouse is the better choice |
 
 More sections will follow.
 
@@ -108,6 +109,26 @@ migrate. It doesn't cover deploying or operating ADME itself.
 | DI-07 | [Reading data: APIs and change feeds](data-integration/07-reading-data-apis-and-change-feeds.md) | Search vs Storage, query syntax and limits, spatial search, relationships, notifications |
 | DI-08 | [Export to analytics and AI](data-integration/08-export-to-analytics-and-ai.md) | ACZ and your own export, re-applying access in the copy, agents and search indexes |
 | DI-09 | [Migration playbook](data-integration/09-migration-playbook.md) | Phases and gates, waves, source changes, cutover, rollback, roles |
+
+## Reading path: domain data services (DDMS)
+
+For anyone who needs to understand the heavy domain data in ADME: architects,
+data managers, data engineers and data scientists. Read the fundamentals first;
+the data integration section helps with the loading details.
+
+It's about **what each DDMS is for**: what it holds, what users and applications
+can do with it, how data gets in, and when it's the right choice compared with
+the File service or a lakehouse copy. Start with DDMS-01, then read the chapters
+for the data you work with.
+
+| # | Doc | You will understand |
+|---|---|---|
+| DDMS-01 | [Choosing: File service, DDMS or lakehouse](ddms/01-choosing-file-service-ddms-or-lakehouse.md) | The three copies of domain data, what each gives you, and which to use for which need |
+| DDMS-02 | [Wellbore DDMS](ddms/02-wellbore.md) | Well logs, trajectories and pressure data; reading curves by depth; how logs get in and change |
+| DDMS-03 | [Seismic DDMS](ddms/03-seismic.md) | Seismic Store, SEG-Y vs OpenVDS and ZGY, how it links to the catalogue, storage tiers, seismic ML |
+| DDMS-04 | [Reservoir DDMS](ddms/04-reservoir.md) | Reservoir models in RESQML, dataspaces and scenarios, reading one property, making models findable |
+| DDMS-05 | [Rock and fluid samples (RAFS)](ddms/05-rock-and-fluid-samples.md) | Samples, lab analyses and simulation inputs as validated, searchable tables |
+| DDMS-06 | [Petrel Data Services](ddms/06-petrel-data-services.md) | SLB's service for Petrel projects in ADME, and liberating their data into the OSDU DDMS |
 
 ## Reference: look up any time
 
