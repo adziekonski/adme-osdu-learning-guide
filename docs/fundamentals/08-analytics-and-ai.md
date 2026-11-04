@@ -12,7 +12,8 @@
   **Databricks**, Snowflake…). That's also where you combine subsurface data with
   data that isn't in ADME, such as production, sensors, maintenance and finance.
 - Two ways out: the managed **Analytics Consumption Zone (ACZ)** export to Delta
-  tables (preview), or **your own pipeline** on the ADME APIs.
+  tables (generally available since November 2026, a billed add-on), or **your
+  own pipeline** on the ADME APIs.
 - **Access lists and legal tags aren't enforced in copies.** The lakehouse must
   re-apply access control.
 - **Recommended defaults:**
@@ -51,7 +52,7 @@ flowchart LR
 
 | Option | What it does | Status and notes |
 |---|---|---|
-| **Analytics Consumption Zone (ACZ)** | Managed export of chosen **catalog kinds** and **Wellbore DDMS kinds** (including curve files) to **Delta Parquet in your own ADLS Gen2**:<br/>- an initial snapshot, then **near-real-time** incremental sync;<br/>- soft deletes set `isActive = false`, and purges remove rows;<br/>- rows keep `acl` and `legal` as columns;<br/>- the sync engine runs **in ADME**, the files are in **your** storage, and Fabric, Databricks or Snowflake read them in place. | **Preview:** Developer tier only, allow list. Microsoft has how-to guides for **Fabric**, **Databricks** and **Snowflake**. |
+| **Analytics Consumption Zone (ACZ)** | Managed export of chosen **catalog kinds** and **Wellbore DDMS kinds** (including curve files) to **Delta Parquet in your own ADLS Gen2**:<br/>- an initial snapshot, then **near-real-time** incremental sync;<br/>- soft deletes set `isActive = false`, and purges remove rows;<br/>- rows keep `acl` and `legal` as columns;<br/>- the sync engine runs **in ADME**, the files are in **your** storage, and Fabric, Databricks or Snowflake read them in place. | **Generally available** since November 2026, on the Developer and Standard tiers; enabled in the Azure portal and **billed as an add-on**. Wellbore DDMS export and entitlements export are previews. Microsoft has how-to guides for **Fabric**, **Databricks** and **Snowflake**. |
 | **Your own pipeline** | Code that calls Search, Storage and DDMS APIs and writes Delta tables. It runs in ADF or Fabric pipelines, Databricks jobs or Functions. The **Notification** service can trigger incremental syncs when records change. | Always available; you own it. No first-party "OSDU connector" exists in ADF or Fabric, so you use generic REST calls. |
 | **Partner tools** | Data management and visualisation products that support ADME (Interica, Katalyst, Cegal, INT…) | Commercial products |
 | **Direct reads for bulk** | Seismic: **OpenVDS** libraries read volumes stored in the Seismic DDMS (`sd://…` paths). Logs: Wellbore DDMS APIs. | Typical for ML on seismic, where a Delta copy makes little sense |
@@ -117,10 +118,11 @@ ADME documents + APIs ───────────────────�
 Seismic DDMS ──OpenVDS──────────────────────▶ Azure ML GPU (seismic AI)
 ```
 
-**Until ACZ is available for your tier**, replace the ACZ step with your own
-export pipeline. ACZ is currently a Developer-tier preview, so production
-instances can't use it yet. For example, Fabric notebooks or pipelines can call
-the ADME APIs and write Delta tables directly into OneLake.
+**Without ACZ**, replace the ACZ step with your own export pipeline: when ACZ
+isn't enabled on the instance (it's a billed add-on), or for data it doesn't
+export, such as seismic, reservoir models and lab results. For example, Fabric
+notebooks or pipelines can call the ADME APIs and write Delta tables directly
+into OneLake.
 
 **Rules for AI on ADME data** (they apply whatever the platform):
 - **Agents act as the user:** call ADME with the **user's token** (on behalf of

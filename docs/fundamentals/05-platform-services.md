@@ -83,7 +83,7 @@ flowchart LR
 | **Security** | Entra ID, Private Link, customer-managed keys, Customer Lockbox, managed identity, CORS, audit logs |
 | **Monitoring** | Service, Airflow and search-cluster logs sent to Azure Monitor; platform metrics such as request count and data volume (preview) |
 | **Reference data** | FIXED and OPEN values synced automatically and upgraded with each milestone ([doc 03, §4a](03-data-model.md#4a-reference-data-the-lookup-values)) |
-| **Analytics export** | **Analytics Consumption Zone (ACZ)**, in preview: continuous export of chosen kinds to **Delta Parquet in your own ADLS Gen2**, which Fabric, Databricks or Snowflake can read. Developer tier, allow-list only. |
+| **Analytics export** | **Analytics Consumption Zone (ACZ)**: continuous export of chosen kinds to **Delta Parquet in your own ADLS Gen2**, which Fabric, Databricks or Snowflake can read. Generally available since November 2026 on the Developer and Standard tiers, as a billed add-on; Wellbore DDMS export is a preview. |
 | **Deployable add-ons** | **OSDU Admin UI** (manage groups, legal tags, schemas, maps) and **Geospatial Consumption Zone** (map services). Community tools you deploy yourself next to ADME. |
 
 ## 3. The life of a record: save → index → search

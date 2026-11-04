@@ -104,8 +104,9 @@ centrally.
 **Notes per DDMS:**
 - **Wellbore:**
   - the default home for log and trajectory bulk data;
-  - the **Analytics Consumption Zone** can export Wellbore DDMS kinds to Delta
-    tables ([doc 05](05-platform-services.md)).
+  - the **Analytics Consumption Zone** can export Wellbore DDMS kinds, with
+    their bulk files, to your own storage (preview)
+    ([doc 05](05-platform-services.md)).
 - **Seismic:**
   - each data partition must be **registered as a seismic tenant** before use;
   - conversion workflows turn **SEG-Y → OpenVDS / ZGY**;
